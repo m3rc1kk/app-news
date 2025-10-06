@@ -119,7 +119,7 @@ def popular_posts(request):
 def recent_posts(request):
     posts = Post.objects.filter(
         status='published',
-    ).select_related('author', 'category').order_by('-created_at')[:10]
+    ).select_related('author', 'category').order_by('-views_count')[:10]
 
     serializer = PostListSerializer(posts, many=True, context={'request': request})
     return Response(serializer.data)

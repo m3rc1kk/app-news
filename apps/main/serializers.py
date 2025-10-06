@@ -49,13 +49,12 @@ class PostDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['id', 'title',
-                  'slug', 'content',
-                  'image', 'category',
-                  'author', 'status',
-                  'created_at', 'updated_at',
-                  'views_count', 'comments_count'
-                  ]
+        fields = [
+            'id', 'title', 'slug', 'content', 'image', 'category',
+            'category_info', 'author', 'author_info', 'status',
+            'created_at', 'updated_at', 'views_count', 'comments_count',
+
+        ]
         read_only_fields = ['slug', 'author', 'views_count']
 
     def get_author_info(self, obj):
@@ -64,7 +63,7 @@ class PostDetailSerializer(serializers.ModelSerializer):
             'id': author.id,
             'username': author.username,
             'full_name': author.full_name,
-            'avatar': author.avatar.url if author.avatar else None,
+            'avatar': author.avatar.url if author.avatar else None
         }
 
     def get_category_info(self, obj):
