@@ -19,7 +19,7 @@ from apps.main.models import Post
 class CommentListCreateView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_class = ['post', 'author', 'parent']
+    filterset_fields = ['post', 'author', 'parent']
     search_fields = ['content']
     ordering_fields = ['created_at', 'updated_at']
     ordering = ['-created_at']
@@ -57,7 +57,7 @@ class MyCommentsView(generics.ListAPIView):
     ordering = ['-created_at']
 
     def get_queryset(self):
-        return Comment.object.filter(is_active=True).select_related('post', 'parent')
+        return Comment.objects.filter(is_active=True).select_related('post', 'parent')
 
 
 @api_view(['GET'])
