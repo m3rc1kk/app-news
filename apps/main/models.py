@@ -65,7 +65,6 @@ class Post(models.Model):
 
     @property
     def comments_count(self):
-
         return self.comments.filter(is_active=True).count()
 
     def increment_views(self):
