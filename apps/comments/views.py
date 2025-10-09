@@ -86,11 +86,11 @@ def post_comments(request, post_id):
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
 def comment_replies(request, comment_id):
-    parent_comment = get_object_or_404(Comment, pk=comment_id, is_active=True)
-    replies = Comment.objects.filter(parent=parent_comment, is_active=True).select_related('author').order_by('-created_at')
-    serializer = CommentDetailSerializer(replies, many=True, context={'request': request})
+    parent_comment = get_object_or_404(Comment, id=comment_id, is_active=True)
+    replies = Comment.objects.filter(parent=parent_comment, is_active=True).select_related('author').order_by('created_at')
+    serializer = CommentSerializer(replies, many=True, context={'request': request})
     return Response({
-        'parent_comment': parent_comment,
+        'parent_comment': CommentSerializer(parent_comment, context={'request': request}).data,
         'replies': serializer.data,
         'replies_count': replies.count()
     })
